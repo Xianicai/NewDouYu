@@ -19,6 +19,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
     @BindView(R.id.view_pager)
+
     ViewPager mViewPager;
 
     public static HomeFragment newInstance() {
