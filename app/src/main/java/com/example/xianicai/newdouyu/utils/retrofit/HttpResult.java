@@ -6,7 +6,7 @@ package com.example.xianicai.newdouyu.utils.retrofit;
 
 public class HttpResult<T> {
 
-    int status;
+    int error;
     String message;
     T data;
 
@@ -26,12 +26,12 @@ public class HttpResult<T> {
         this.data = data;
     }
 
-    public int getStatus() {
-        return status;
+    public int getError() {
+        return error;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setError(int error) {
+        this.error = error;
     }
 
 

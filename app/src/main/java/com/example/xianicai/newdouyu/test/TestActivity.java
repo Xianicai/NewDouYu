@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.example.xianicai.newdouyu.R;
 import com.example.xianicai.newdouyu.base.view.BaseActivity;
+import com.example.xianicai.newdouyu.home.model.bean.HomeBannerBean;
+import com.example.xianicai.newdouyu.home.model.service.HomeService;
 import com.example.xianicai.newdouyu.utils.ToastUtil;
 import com.example.xianicai.newdouyu.utils.retrofit.HttpResult;
 import com.example.xianicai.newdouyu.utils.retrofit.Requester;
@@ -34,14 +36,15 @@ public class TestActivity extends BaseActivity {
 
 //        PostInfo postInfo = JSON.parseObject(TestJson.json, PostInfo.class);
 //    }
-        RetrofitService retrofitService = Requester.get().create(RetrofitService.class);
-        retrofitService.getPostInfoRx("yuantong", "11111111111")
-                .compose(new ThreadTransformer<HttpResult<List<PostInfo.DataBean>>>())
-                .subscribe(new RespondObserver<List<PostInfo.DataBean>>() {
+       Requester.get().create(HomeService.class)
+        .getBanner()
+                .compose(new ThreadTransformer<HttpResult<List<HomeBannerBean.DataBean>>>())
+                .subscribe(new RespondObserver<List<HomeBannerBean.DataBean>>() {
                     @Override
-                    public void onSuccess(List<PostInfo.DataBean> result) {
+                    public void onSuccess(List<HomeBannerBean.DataBean> result) {
                         super.onSuccess(result);
-                        ToastUtil.showMessage("haha");
+                        ToastUtil.showMessage(result+"");
+
                     }
 
                     @Override

@@ -2,6 +2,8 @@ package com.example.xianicai.newdouyu.utils.retrofit;
 
 import android.util.Log;
 
+import com.example.xianicai.newdouyu.utils.UnicodeUtil;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 
@@ -13,8 +15,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
-
-import static okhttp3.internal.Util.UTF_8;
 
 /**
  * Created by Zhanglibin on 2017/4/25.
@@ -28,7 +28,9 @@ public class LoggerInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         printRequestMessage(request);
+        //开始请求
         Response response = chain.proceed(request);
+        //请求之后的信息打印
         printResponseMessage(response);
         return response;
     }
@@ -43,7 +45,6 @@ public class LoggerInterceptor implements Interceptor {
             return;
         }
         Log.i(TAG, "Method: " + request.method() + "\nUrl   : " + request.url().url().toString());
-//        Log.i(TAG, "Heads : " + request.headers());
         RequestBody requestBody = request.body();
         if (requestBody == null) {
             return;
@@ -78,14 +79,16 @@ public class LoggerInterceptor implements Interceptor {
             e.printStackTrace();
         }
         Buffer buffer = source.buffer();
-        Charset charset = UTF_8;
+        Charset charset = Charset.forName("UTF-8");
         MediaType contentType = responseBody.contentType();
         if (contentType != null) {
-            charset = contentType.charset();
+            charset = contentType.charset(charset);
         }
-        if (contentLength != 0) {
+        if (contentLength != 0 && charset != null) {
             String result = buffer.clone().readString(charset);
-            Log.i(TAG, "Response: " + result);
+            Log.i(TAG, "Response: " + UnicodeUtil.decodeUnicode(result));
         }
     }
+
+
 }

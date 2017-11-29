@@ -1,6 +1,8 @@
 package com.example.xianicai.newdouyu.utils.retrofit;
 
 import com.example.xianicai.newdouyu.base.BaseApplication;
+import com.example.xianicai.newdouyu.common.Urls;
+import com.example.xianicai.newdouyu.utils.retrofit.factory.ResponseConverterFactory;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +11,6 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Zhanglibin on 2017/11/16.
@@ -21,8 +22,8 @@ public class Requester {
 
     private Requester() {
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("http://www.kuaidi100.com/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Urls.BASE_URL)
+                .addConverterFactory(ResponseConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
                 .build();
@@ -55,7 +56,9 @@ public class Requester {
         //设置缓存
         File httpCacheDirectory = new File(FileUtils.getCacheDir(BaseApplication.getInstance()), "OkHttpCache");
         httpClientBuilder.cache(new Cache(httpCacheDirectory, 10 * 1024 * 1024));
+        httpClientBuilder.addInterceptor(new BaseParamsInterceptor());
         httpClientBuilder.addInterceptor(new LoggerInterceptor());
         return httpClientBuilder.build();
+
     }
 }

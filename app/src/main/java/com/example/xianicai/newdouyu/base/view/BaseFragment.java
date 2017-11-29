@@ -14,7 +14,7 @@ import butterknife.Unbinder;
  * Created by Zhanglibin on 2017/3/28.
  */
 
-public abstract class BaseFragment extends RxFragment {
+public abstract class BaseFragment extends RxFragment implements BaseView {
     private Unbinder mUnbinder;
 
     public  abstract int  getLayoutId();
@@ -31,6 +31,9 @@ public abstract class BaseFragment extends RxFragment {
     }
 
 
+    public BaseFragment() {
+        super();
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
@@ -48,5 +51,25 @@ public abstract class BaseFragment extends RxFragment {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void showProgress(String message) {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showMsg(String msg) {
+
     }
 }

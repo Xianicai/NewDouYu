@@ -22,7 +22,7 @@ public class RespondObserver<T> implements Observer<HttpResult<T>> {
 
     @Override
     public void onNext(HttpResult<T> tHttpResult) {
-        if (tHttpResult.status == 200) {
+        if (tHttpResult.error == 0) {
             onSuccess(tHttpResult.getData());
         } else {
             ToastUtil.showMessage(tHttpResult.getMessage());
